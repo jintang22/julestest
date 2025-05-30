@@ -1,12 +1,9 @@
 package com.example.demo.model
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.* // Ensure all necessary JPA imports are here
 
 @Entity
+@Table(name = "users") // It's good practice to explicitly name the table, e.g., "users"
 data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,5 +12,8 @@ data class User(
     @Column(unique = true)
     var username: String,
 
-    var email: String
+    var email: String,
+
+    @OneToMany(mappedBy = "seller", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    val products: List<Product> = emptyList()
 )
